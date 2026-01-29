@@ -59,21 +59,21 @@ The datasets, code and weights will be released, stay tuned!
 
 ### Vision-DeepResearch
 
-![](figs/teaser.pdf)
+![](figs/teaser.png)
 
 ### VDR-Bench
 
-![](figs/vdr_teaser.pdf)
+![](figs/vdr_teaser.png)
 
 ## Data Pipeline
 
 ### Vision-DeepResearch
 
-![](figs/data_pipeline.pdf)
+![](figs/data_pipeline.png)
 
 ### VDR-Bench
 
-![](figs/vdr_data_pipeline.pdf)
+![](figs/vdr_data_pipeline.png)
 
 ## Train
 
