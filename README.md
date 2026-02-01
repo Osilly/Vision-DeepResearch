@@ -15,8 +15,11 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 </p>
 The datasets, code and weights will be released, stay tuned!
 
-## Demo
+## Timeline
 
+- [2026/02/02] **We released [Cold-start Dataset (demo)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data), [RL Dataset (demo)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data), [Vision-DeepResearch-8B (SFT-only)](https://huggingface.co/Osilly/Vision-DeepResearch-8B), [VDR-Bench (full)](https://huggingface.co/datasets/Osilly/VDR-Bench), [VDR-Bench (testmini)](https://huggingface.co/datasets/Osilly/VDR-Bench-testmini)**!
+
+## Demo
 
 
 ## Performance
