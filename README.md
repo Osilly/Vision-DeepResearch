@@ -3,15 +3,15 @@
 The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models" and "Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models".
 
 <p align="center">
-       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">VDR-Bench (testmini)</a>&nbsp&nbsp
+       🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini">VDR-Bench (testmini)</a>&nbsp&nbsp
 </p>
 
 <p align="center">
-       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-8B</a>&nbsp&nbsp 
+       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B (coming soon)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>&nbsp&nbsp 
 </p>
 
 <p align="center">
-  📑<a href="https://github.com/Osilly/Vision-DeepResearch/blob/main/papers/Vision-DeepResearch.pdf">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://github.com/Osilly/Vision-DeepResearch/blob/main/papers/VDR-Bench.pdf">VDR-Bench Paper</a>&nbsp&nbsp
+  📑<a href="https://arxiv.org/abs/2601.22060">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://github.com/Osilly/Vision-DeepResearch/blob/main/papers/VDR-Bench.pdf">VDR-Bench Paper</a>&nbsp&nbsp
 </p>
 The datasets, code and weights will be released, stay tuned!
 
