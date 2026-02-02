@@ -1,5 +1,3 @@
-"""DeepResearch workflow (single source for training/inference)."""
-
 from io import BytesIO
 import asyncio
 import re
@@ -182,41 +180,6 @@ def _to_pil_image(img: Any) -> Optional[Image.Image]:
     return None
 
 
-# def _apply_image_limits(
-#     images: List[Image.Image],
-#     max_images: Optional[int] = None,
-#     max_pixels: Optional[int] = None,
-# ) -> List[Image.Image]:
-#     """Apply count and pixel limits to image list; resize oversized images instead of dropping."""
-#     if not images:
-#         return []
-
-#     limited = images
-#     if max_images is not None:
-#         limited = limited[: max(0, max_images)]
-
-#     if max_pixels is not None:
-#         resized: List[Image.Image] = []
-#         for img in limited:
-#             width, height = img.size
-#             pixels = width * height
-#             if pixels > max_pixels and pixels > 0:
-#                 scale = (max_pixels / pixels) ** 0.5
-#                 new_w = max(1, int(width * scale))
-#                 new_h = max(1, int(height * scale))
-#                 try:
-#                     img = img.resize((new_w, new_h), Image.LANCZOS)
-#                     print(
-#                         f"[Images] Resize image from {width}x{height} to {new_w}x{new_h} due to max_pixels={max_pixels}"
-#                     )
-#                 except Exception as exc:  # noqa: BLE001
-#                     print(f"[Images] Resize failed, keep original: {exc}")
-#             resized.append(img)
-#         limited = resized
-
-#     return limited
-
-
 class DeepResearchWorkflow(Workflow):
     def __init__(
         self,
@@ -264,10 +227,6 @@ class DeepResearchWorkflow(Workflow):
                     pil = _to_pil_image(img)
                     if pil is not None:
                         pil_images.append(pil)
-
-            # pil_images = _apply_image_limits(
-            #     pil_images, max_images=max_images, max_pixels=max_pixels
-            # )
 
             if pil_images:
                 result = await self.agent.run(
@@ -345,9 +304,6 @@ class DeepResearchWorkflow(Workflow):
             print(f"   Metrics: {episode.metrics}")
             if episode.info.get("mask_reason"):
                 print(f"   Mask Reason: {episode.info['mask_reason']}")
-            # if episode.trajectories and episode.trajectories[0].steps:
-            #     print(f"   Trajectory Example: {episode.trajectories[0].steps[-1]}")
-
             return episode
 
         except Exception as exc:  # noqa: BLE001

@@ -58,7 +58,6 @@ top_k=-1
 val_top_p=0.95
 
 loss_agg_mode="seq-mean-token-sum"
-# loss_agg_mode="seq-mean-token-sum-norm"
 
 
 # ========= cluster =========

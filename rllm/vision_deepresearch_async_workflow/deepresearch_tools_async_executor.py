@@ -1,14 +1,3 @@
-"""
-DeepResearch Tools - Production-ready implementations
-
-This module provides tool implementations for the DeepResearch agent, with real
-functionality ported from Tongyi's original implementations where possible.
-
-Now supports both:
-- ReAct text format (for gpt-4o, Claude, etc.)
-- OpenAI native function calling (for o3, o3-mini, etc.)
-"""
-
 from vision_deepresearch_async_workflow.tools.crop_and_search_tool import (
     CropAndSearchTool,
 )

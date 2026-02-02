@@ -1,12 +1,3 @@
-"""
-DeepResearch Agent - Adapted from Tongyi DeepResearch for rLLM
-
-This is the core ReAct agent that implements DeepResearch's reasoning and tool-calling logic,
-adapted to work with rLLM's OpenAI engine instead of the original server-based approach.
-
-Original: https://github.com/Alibaba-NLP/DeepResearch/blob/main/inference/react_agent.py
-"""
-
 from __future__ import annotations
 
 import asyncio
@@ -27,42 +18,6 @@ OBS_START = "<tool_response>"
 OBS_END = "\n</tool_response>"
 MAX_LLM_CALL_PER_RUN = 50
 
-# System prompt adapted from DeepResearch
-# DEEPRESEARCH_SYSTEM_PROMPT = """You are a deep research assistant. Your core function is to conduct thorough, multi-source investigations into any topic. You must handle both broad, open-domain inquiries and queries within specialized academic fields. For every request, synthesize information from credible, diverse sources to deliver a comprehensive, accurate, and objective response. When you have gathered sufficient information and are ready to provide the definitive response, you must enclose the entire final answer within <answer></answer> tags.
-
-# # Tools
-
-# You may call one or more functions to assist with the user query.
-
-# You are provided with function signatures within <tools></tools> XML tags:
-# <tools>
-# {"type": "function", "function": {"name": "search", "description": "Perform Google web searches then returns a string of the top search results. Accepts multiple queries.", "parameters": {"type": "object", "properties": {"query": {"type": "array", "items": {"type": "string", "description": "The search query."}, "minItems": 1, "description": "The list of search queries."}}, "required": ["query"]}}}
-# {"type": "function", "function": {"name": "visit", "description": "Visit webpage(s) and return the summary of the content.", "parameters": {"type": "object", "properties": {"url": {"type": "array", "items": {"type": "string"}, "description": "The URL(s) of the webpage(s) to visit. Can be a single URL or an array of URLs."}, "goal": {"type": "string", "description": "The specific information goal for visiting webpage(s)."}}, "required": ["url", "goal"]}}}
-# {"type": "function", "function": {"name": "PythonInterpreter", "description": "Executes Python code in a sandboxed environment. To use this tool, you must follow this format:
-# 1. The 'arguments' JSON object must be empty: {}.
-# 2. The Python code to be executed must be placed immediately after the JSON block, enclosed within <code> and </code> tags.
-
-# IMPORTANT: Any output you want to see MUST be printed to standard output using the print() function.
-
-# Example of a correct call:
-# <tool_call>
-# {"name": "PythonInterpreter", "arguments": {}}
-# <code>
-# import numpy as np
-# # Your code here
-# print(f"The result is: {np.mean([1,2,3])}")
-# </code>
-# </tool_call>", "parameters": {"type": "object", "properties": {}, "required": []}}}
-# {"type": "function", "function": {"name": "google_scholar", "description": "Leverage Google Scholar to retrieve relevant information from academic publications. Accepts multiple queries. This tool will also return results from google search", "parameters": {"type": "object", "properties": {"query": {"type": "array", "items": {"type": "string", "description": "The search query."}, "minItems": 1, "description": "The list of search queries for Google Scholar."}}, "required": ["query"]}}}
-# {"type": "function", "function": {"name": "parse_file", "description": "This is a tool that can be used to parse multiple user uploaded local files such as PDF, DOCX, PPTX, TXT, CSV, XLSX, DOC, ZIP, MP4, MP3.", "parameters": {"type": "object", "properties": {"files": {"type": "array", "items": {"type": "string"}, "description": "The file name of the user uploaded local files to be parsed."}}, "required": ["files"]}}}
-# </tools>
-
-# For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
-# <tool_call>
-# {"name": <function-name>, "arguments": <args-json-object>}
-# </tool_call>
-
-# Current date: """
 DEEPRESEARCH_SYSTEM_PROMPT_TEXT = """You are a deep research assistant. Your core function is to conduct thorough, multi-source investigations into any topic. You must handle both broad, open-domain inquiries and queries within specialized academic fields. For every request, synthesize information from credible, diverse sources to deliver a comprehensive, accurate, and objective response. When you have gathered sufficient information and are ready to provide the definitive response, you must enclose the entire final answer within <answer></answer> tags.
 
 # Tools
@@ -254,7 +209,6 @@ class MultiTurnReactAgent:
         self.system_prompt = system_prompt
         # Configuration from original DeepResearch
         self.max_llm_calls = MAX_LLM_CALL_PER_RUN
-        # self.max_time = 150 * 60  # 150 minutes timeout
         self.default_max_tries = default_max_tries
 
         # Smart context management using actual API consumption
@@ -394,9 +348,6 @@ class MultiTurnReactAgent:
             "max_prompt": self.max_prompt_tokens,
         }
 
-        # if next_prompt_tokens is not None:
-        #     token_usage["next_prompt_estimate"] = next_prompt_tokens
-
         result = {
             "question": question,
             "answer": answer,
@@ -408,51 +359,6 @@ class MultiTurnReactAgent:
             "token_usage": token_usage,
         }
         return result
-
-    # def _filter_images(
-    #     self,
-    #     images: List[Any],
-    #     max_images: Optional[int] = None,
-    #     max_pixels: Optional[int] = None,
-    # ) -> List[Any]:
-    #     """Apply optional count / pixel limits to image inputs, resizing oversized images."""
-    #     if not images:
-    #         return []
-
-    #     filtered: List[Any] = []
-    #     for img in images:
-    #         if max_images is not None and len(filtered) >= max_images:
-    #             break
-
-    #         pil_img: Optional[Image.Image] = None
-    #         if isinstance(img, Image.Image):
-    #             pil_img = img
-    #         elif isinstance(img, dict) and isinstance(img.get("image"), Image.Image):
-    #             pil_img = img.get("image")
-
-    #         if max_pixels is not None and pil_img is not None:
-    #             width, height = pil_img.size
-    #             pixels = width * height
-    #             if pixels > max_pixels and pixels > 0:
-    #                 scale = (max_pixels / pixels) ** 0.5
-    #                 new_w = max(1, int(width * scale))
-    #                 new_h = max(1, int(height * scale))
-    #                 try:
-    #                     resized = pil_img.resize((new_w, new_h), Image.LANCZOS)
-    #                     if isinstance(img, dict):
-    #                         img = {**img, "image": resized}
-    #                     else:
-    #                         img = resized
-    #                     pil_img = resized
-    #                     print(
-    #                         f"[Images] Resize image from {width}x{height} to {new_w}x{new_h} due to max_pixels={max_pixels}"
-    #                     )
-    #                 except Exception as exc:  # noqa: BLE001
-    #                     print(f"[Images] Resize failed, keep original: {exc}")
-
-    #         filtered.append(img)
-
-    #     return filtered
 
     async def _run(
         self,
@@ -481,23 +387,17 @@ class MultiTurnReactAgent:
         """
         start_time = time.time()
 
-        # Setup system prompt with current date
         system_prompt = (
             self.system_prompt or DEEPRESEARCH_SYSTEM_PROMPT
         ) + today_date()
 
-        # Construct initial user message (multimodal if images present)
         if images:
-            # filtered_images = self._filter_images(
-            #     images=images, max_images=max_images, max_pixels=max_pixels
-            # )
             user_message = {
                 "role": "user",
                 "content": question,
                 "images": images,
             }
         else:
-            # Plain text message
             user_message = {"role": "user", "content": question}
 
         messages = [
@@ -520,24 +420,7 @@ class MultiTurnReactAgent:
         prediction = ""
         consecutive_bad_steps = 0
 
-        # Truncate question for display
-        # q_display = str(question).replace("\n", " ").strip()
-        # if len(q_display) > 200:
-        #     q_display = q_display[:200] + "..."
         while num_llm_calls_available > 0:
-            # # Check time limit (150 minutes)
-            # if time.time() - start_time > self.max_time:
-            #     prediction = "No answer found after 2h30mins"
-            #     termination = "No answer found after 2h30mins"
-            #     result = {
-            #         "question": question,
-            #         "answer": answer,
-            #         "messages": messages,
-            #         "prediction": prediction,
-            #         "termination": termination,
-            #     }
-            #     return result
-
             round += 1
             num_llm_calls_available -= 1
 
@@ -545,7 +428,6 @@ class MultiTurnReactAgent:
             try:
                 response = await self.call_server(messages, **kwargs)
             except Exception as exc:  # noqa: BLE001
-                # prediction = str(exc) or "call_server failed"
                 prediction = "call_server failed"
                 termination = "error"
                 return self._build_result(
@@ -558,19 +440,6 @@ class MultiTurnReactAgent:
                     start_time=start_time,
                 )
 
-            # if isinstance(response, dict) and response.get("failure_type"):
-            #     prediction = response.get("error") or "call_server failed"
-            #     termination = "error"
-            #     return self._build_result(
-            #         question=question,
-            #         answer=answer,
-            #         messages=messages,
-            #         prediction=prediction,
-            #         termination=termination,
-            #         rounds=round,
-            #         start_time=start_time,
-            #     )
-
             # Synchronize token usage with rollout engine feedback
             self.record_token_usage(response)
 
@@ -579,28 +448,6 @@ class MultiTurnReactAgent:
                 response.text if hasattr(response, "text") and response.text else ""
             )
 
-            # # Debug: Print raw model response to see format
-            # if round == 1:
-            #     print(f"[DEBUG] Raw model response (first 500 chars): {content[:500]}")
-
-            # # Print concise round info with truncation
-            # MAX_PRINT_LENGTH = 200
-
-            # # Simple truncation for all prints
-            # def truncate(text, max_len=MAX_PRINT_LENGTH):
-            #     text = str(text).replace("\n", " ").strip()
-            #     # Special handling for base64 images
-            #     if "data:image" in text or ";base64," in text:
-            #         # Find the base64 part and truncate it
-            #         if "base64," in text:
-            #             parts = text.split("base64,", 1)
-            #             return parts[0] + "base64,[truncated]"
-            #         return "[base64 image data]"
-            #     if len(text) > max_len:
-            #         return text[:max_len] + "..."
-            #     return text
-
-            # Print round info based on content type
             if "<tool_call>" in content:
                 # Extract tool name for display
                 if "python" in content.lower() and "<code>" in content:
@@ -610,11 +457,9 @@ class MultiTurnReactAgent:
                         tool_text = content.split("<tool_call>")[1].split(
                             "</tool_call>"
                         )[0]
-                        # tool_text = tool_text[:1000]  # Limit for parsing
                         tool_data = json5.loads(tool_text)
                         tool_name = tool_data.get("name", "Unknown")
                         if "arguments" in tool_data:
-                            # args_str = truncate(str(tool_data["arguments"]), 100)
                             args_str = str(tool_data["arguments"])
                             pass
                         else:
@@ -623,23 +468,6 @@ class MultiTurnReactAgent:
                         pass
                 else:
                     pass
-            # elif "<answer>" in content:
-            #     # Final answer
-            #     answer_preview = content.split("<answer>")[1].split("</answer>")[0]
-            #     # print(f"Round {round}: ✅ Final answer: {truncate(answer_preview, 100)}")
-            #     print(f"Round {round}: ✅ Final answer: {answer_preview}")
-            # elif "<think>" in content:
-            #     think_preview = content.split("<think>")[1].split("</think>")[0]
-            #     print(f"Round {round}: 💭 Reasoning {think_preview}")
-            # else:
-            #     # Show internal reasoning if available, otherwise show content
-            #     if hasattr(response, "reasoning") and response.reasoning:
-            #         # reasoning_preview = truncate(response.reasoning, 300)
-            #         reasoning_preview = response.reasoning
-            #         print(f"Round {round}: 💭 [Internal] {reasoning_preview}")
-            #     elif content:
-            #         # print(f"Round {round}: 💭 Reasoning: {truncate(content)}")
-            #         print(f"Round {round}: 💭 Reasoning: {content}")
 
             # Clean up content if it contains tool_response
             if "<tool_response>" in content:
@@ -709,7 +537,6 @@ class MultiTurnReactAgent:
                 else:
                     consecutive_bad_steps = 0
                 if consecutive_bad_steps >= 3:
-                    # prediction = content.strip() or "Too many consecutive step errors."
                     prediction = "Too many consecutive step errors."
                     termination = "consecutive_step_errors"
                     return self._build_result(
@@ -749,7 +576,6 @@ class MultiTurnReactAgent:
                             "step_error": True,
                         }
                     )
-                    # prediction = content.strip()
                     prediction = "Repetition response"
                     termination = "repetition_detected"
                     return self._build_result(
@@ -773,7 +599,6 @@ class MultiTurnReactAgent:
                 messages.append({"role": "user", "content": observation})
                 consecutive_bad_steps += 1
                 if consecutive_bad_steps >= 3:
-                    # prediction = content.strip() or "Too many consecutive step errors."
                     prediction = "Too many consecutive step errors."
                     termination = "consecutive_step_errors"
                     return self._build_result(
@@ -790,7 +615,6 @@ class MultiTurnReactAgent:
             if num_llm_calls_available <= 0 and "<answer>" not in content:
                 prediction = f"No answer found after {self.max_llm_calls} rounds."
                 termination = f"answer not found after {self.max_llm_calls} rounds"
-                # prediction = content.strip()
                 return self._build_result(
                     question=question,
                     answer=answer,
@@ -801,27 +625,6 @@ class MultiTurnReactAgent:
                     start_time=start_time,
                 )
 
-            # next_prompt_tokens = self._estimate_prompt_tokens(messages)
-            # if next_prompt_tokens >= self.max_prompt_tokens:
-            #     prediction = f"No answer found using the maximum prompt tokens ({self.max_prompt_tokens})."
-            #     termination = f"answer not found using the maximum prompt tokens ({self.max_prompt_tokens})"
-            #     print(
-            #         "Prompt budget reached. Returning current trajectory to avoid engine termination."
-            #     )
-            #     # prediction = content.strip()
-            #     return self._build_result(
-            #         question=question,
-            #         answer=answer,
-            #         messages=messages,
-            #         prediction=prediction,
-            #         termination=termination,
-            #         rounds=round,
-            #         start_time=start_time,
-            #         next_prompt_tokens=next_prompt_tokens,
-            #     )
-
-        # Final validation logic from original Tongyi implementation
-        # Handle both native function calling and ReAct text format
         last_message_content = (
             messages[-1].get("content", "") if isinstance(messages[-1], dict) else ""
         )
@@ -834,7 +637,6 @@ class MultiTurnReactAgent:
             if num_llm_calls_available == 0:
                 termination = "exceed available llm calls"
 
-        # Final result
         result = self._build_result(
             question=question,
             answer=answer,
@@ -856,10 +658,6 @@ class MultiTurnReactAgent:
                 max_prompt=self.max_prompt_tokens,
             )
         )
-        # Truncate prediction for display
-        # pred_display = str(prediction).replace("\n", " ").strip()
-        # if len(pred_display) > 200:
-        #     pred_display = pred_display[:200] + "..."
         return result
 
     async def custom_call_tool(self, tool_name: str, tool_args: dict, **kwargs) -> str:
