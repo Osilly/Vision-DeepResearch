@@ -17,6 +17,8 @@ The datasets, code and weights will be released, stay tuned!
 
 ## Timeline
 
+- [2026/02/03] **We released [SFT code](https://github.com/Osilly/Vision-DeepResearch/tree/main/ms-swift/run), [RL code](https://github.com/Osilly/Vision-DeepResearch/tree/main/rllm/vision_deepresearch_async_workflow)**! We will finish the guidance later, stay tune!
+
 - [2026/02/02] **We released [Cold-start Dataset (demo)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data), [RL Dataset (demo)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data), [Vision-DeepResearch-8B (SFT-only)](https://huggingface.co/Osilly/Vision-DeepResearch-8B), [VDR-Bench (full)](https://huggingface.co/datasets/Osilly/VDR-Bench), [VDR-Bench (testmini)](https://huggingface.co/datasets/Osilly/VDR-Bench-testmini)**!
 
 ## Demo
@@ -115,7 +117,7 @@ The datasets, code and weights will be released, stay tuned!
 
 
 
-### Openai Eollout Engine
+### Openai Rollout Engine
 
 
 
