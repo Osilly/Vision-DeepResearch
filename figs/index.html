@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="description" content="Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- 标签页小图标（favicon） -->
+  <link rel="icon" type="image/png"
+        href="https://github.com/Osilly/Vision-DeepResearch/raw/main/figs/icon.png">
+  <link rel="shortcut icon" type="image/png"
+        href="https://github.com/Osilly/Vision-DeepResearch/raw/main/figs/icon.png">
+
+  <!-- 标题前加一个小图标字符 -->
   <title>Vision-DeepResearch</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,600,700,800&display=swap" rel="stylesheet">
@@ -50,6 +58,14 @@
       margin: 0 0 1.5rem 0;
       font-weight: 700;
       color: #111;
+    }
+
+    /* Title Icon - 与文字等高 */
+    .title-icon {
+      height: 1.5em;
+      width: auto;
+      vertical-align: middle;
+      margin-right: 8px;
     }
 
     /* Authors */
@@ -526,7 +542,12 @@
 
   <!-- Header -->
   <div class="header-container">
-    <h1 class="title">Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models</h1>
+    <h1 class="title">
+      <img class="title-icon"
+           src="https://github.com/Osilly/Vision-DeepResearch/raw/main/figs/icon.png"
+           alt="Vision-DeepResearch Icon">
+      Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models
+    </h1>
     
     <div class="author-block">
       <a href="#" class="author-primary">Wenxuan Huang</a><sup>1,2*†</sup>,
