@@ -126,7 +126,7 @@
       color: #111;
     }
 
-    /* Buttons - 纯黑色风格 */
+    /* Buttons - 黑色带透明度 */
     .publication-links {
       display: flex;
       justify-content: center;
@@ -138,7 +138,7 @@
     .link-block a {
       display: inline-flex;
       align-items: center;
-      background: rgba(0, 0, 0, 0.75);  /* 80% 不透明度，可调整最后一个数字 */
+      background: rgba(0, 0, 0, 0.75);
       color: #fff;
       padding: 10px 20px;
       border-radius: 50px;
@@ -150,23 +150,22 @@
     }
 
     .link-block a:hover {
-      background: rgba(0, 0, 0, 0.80);  /* 悬停时更深 */
+      background: rgba(0, 0, 0, 0.90);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    .coming-soon:hover {
-      transform: none !important;
-      box-shadow: none !important;
-      background: rgba(0, 0, 0, 0.8) !important;
-    }
-
     .icon { margin-right: 8px; font-size: 1.1em; }
 
+    .coming-soon {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     .coming-soon:hover {
       transform: none !important;
       box-shadow: none !important;
-      background: #000 !important;
+      background: rgba(0, 0, 0, 0.75) !important;
     }
 
     /* Sections */
@@ -241,44 +240,82 @@
       margin: 30px 0 18px 0;
     }
 
-    /* TL;DR Grid */
-    .tldr-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+    /* TL;DR Scrolling */
+    .tldr-scroll-wrapper {
+      overflow: hidden;
+      position: relative;
       margin: 30px 0;
     }
 
+    .tldr-scroll-wrapper::before,
+    .tldr-scroll-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .tldr-scroll-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, #fff, transparent);
+    }
+
+    .tldr-scroll-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, #fff, transparent);
+    }
+
+    .tldr-scroll-track {
+      display: flex;
+      gap: 20px;
+      animation: scroll-left 25s linear infinite;
+      width: max-content;
+    }
+
+    .tldr-scroll-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
     .tldr-card {
-      padding: 22px 20px;
+      flex-shrink: 0;
+      width: 300px;
+      padding: 28px 24px;
       border-radius: 14px;
-      background: #f0f9ff;
-      border: 1px solid #e0f2fe;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .tldr-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
     }
 
     .tldr-card .tldr-icon {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
+      font-size: 2.5rem;
+      margin-bottom: 16px;
     }
 
     .tldr-card h4 {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       color: #111;
-      margin: 0 0 8px 0;
+      margin: 0 0 10px 0;
       font-weight: 600;
     }
 
     .tldr-card p {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #4b5563;
       margin: 0;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     /* Method Grid */
@@ -335,7 +372,7 @@
     .badge-bridge { background: #8b5cf6; }
     .badge-train { background: #f59e0b; }
 
-    /* Table - 方正边框线风格 */
+    /* Table - 方正边框线风格，字体放大 */
     .table-container {
       overflow-x: auto;
       margin: 25px 0;
@@ -346,29 +383,31 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
+      font-size: 1rem;
       background: #fff;
     }
 
     thead th {
       background: #f9fafb;
       color: #111;
-      padding: 14px 12px;
+      padding: 16px 14px;
       text-align: center;
       font-weight: 600;
+      font-size: 1rem;
       border: 1px solid #e5e7eb;
     }
 
     thead th.model-name {
       text-align: left;
-      padding-left: 16px;
+      padding-left: 18px;
     }
 
     td {
-      padding: 12px 12px;
+      padding: 14px 14px;
       text-align: center;
       border: 1px solid #e5e7eb;
       color: #374151;
+      font-size: 1rem;
     }
 
     tbody tr:hover {
@@ -379,7 +418,8 @@
       text-align: left !important;
       font-weight: 600;
       color: #111;
-      padding-left: 16px !important;
+      padding-left: 18px !important;
+      font-size: 1rem;
     }
 
     .category-row {
@@ -387,10 +427,10 @@
     }
 
     .category-row td {
-      padding: 12px 16px;
+      padding: 14px 18px;
       text-align: left;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       color: #374151;
       border: 1px solid #e5e7eb;
     }
@@ -410,7 +450,7 @@
 
     .gain {
       color: #16a34a;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 500;
     }
 
@@ -439,14 +479,14 @@
 
     /* BibTeX - 浅色背景 */
     pre {
-      background-color: #f5f5f5;    /* 浅灰色背景 */
-      color: #374151;               /* 深灰色文字 */
+      background-color: #f5f5f5;
+      color: #374151;
       padding: 22px;
       border-radius: 12px;
       font-size: 0.8rem;
       overflow-x: auto;
       line-height: 1.6;
-      border: 1px solid #e5e7eb;    /* 添加边框 */
+      border: 1px solid #e5e7eb;
     }
 
     /* Footer */
@@ -466,21 +506,17 @@
       color: var(--color-primary);
     }
 
-    @media (max-width: 992px) {
-      .tldr-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
     @media (max-width: 768px) {
       .title { font-size: 1.8rem; }
       .container { padding: 30px 15px; }
       .method-grid { grid-template-columns: 1fr; }
-      .tldr-grid { grid-template-columns: 1fr; }
       .section { padding: 30px 20px; }
-      table { font-size: 0.8rem; }
-      th, td { padding: 10px 8px; }
+      table { font-size: 0.9rem; }
+      th, td { padding: 12px 10px; }
       .affiliation-block span { display: block; margin: 4px 0; }
       .author-block { font-size: 1rem; }
       .affiliation-block { font-size: 0.95rem; }
+      .tldr-card { width: 260px; }
     }
   </style>
 </head>
@@ -611,27 +647,50 @@
     </div>
     <p class="caption"><strong>Figure 1.</strong> <strong>(A)</strong> We identify two key limitations of existing multimodal deep-research paradigms: <strong>(A.1)</strong> Prior methods largely ignore the search engine hit-rate problem—a single full-image or entity-level query often fails to retrieve the required evidence, and querying different-scale crops of the same entity yields highly variable results. <strong>(A.2)</strong> Existing methods are constrained in both reasoning depth and retrieval breadth, typically producing only short trajectories. In contrast, our approach supports dozens of reasoning steps and hundreds of engine interactions. <strong>(B)</strong> Pipeline Overview: We synthesize high-quality VQA instances and multi-turn trajectories, then integrate multimodal deep-research capabilities into an MLLM via SFT and RL training, enabling long-horizon reasoning with multi-turn, multi-entity, and multi-scale visual and textual search. <strong>(C)</strong> Performance Comparison: Our model achieves SoTA performance on six benchmarks with comparatively smaller parameters.</p>
 
-    <!-- TL;DR -->
-    <div class="tldr-grid">
-      <div class="tldr-card">
-        <div class="tldr-icon">🚀</div>
-        <h4>First Long-Horizon Multimodal MLLM</h4>
-        <p>Dozens of ReAct steps, hundreds of tool calls for deep research</p>
-      </div>
-      <div class="tldr-card">
-        <div class="tldr-icon">🔎</div>
-        <h4>Multi-Entity Visual Search</h4>
-        <p>Greatly improves hit rate under real web noise with multi-scale approach</p>
-      </div>
-      <div class="tldr-card">
-        <div class="tldr-icon">📚</div>
-        <h4>End-to-End Training</h4>
-        <p>30K multimodal trajectories (SFT) + 15K VQA (RL) with real tools</p>
-      </div>
-      <div class="tldr-card">
-        <div class="tldr-icon">🏆</div>
-        <h4>SOTA Performance</h4>
-        <p>Outperforms GPT-5 / Gemini-2.5-Pro / Claude-4-Sonnet agents</p>
+    <!-- TL;DR 滚动卡片 -->
+    <div class="tldr-scroll-wrapper">
+      <div class="tldr-scroll-track">
+        <div class="tldr-card">
+          <div class="tldr-icon">🚀</div>
+          <h4>First Long-Horizon Multimodal MLLM</h4>
+          <p>Dozens of ReAct steps, hundreds of tool calls for deep research</p>
+        </div>
+        <div class="tldr-card">
+          <div class="tldr-icon">🔎</div>
+          <h4>Multi-Entity Visual Search</h4>
+          <p>Greatly improves hit rate under real web noise with multi-scale approach</p>
+        </div>
+        <div class="tldr-card">
+          <div class="tldr-icon">📚</div>
+          <h4>End-to-End Training</h4>
+          <p>30K multimodal trajectories (SFT) + 15K VQA (RL) with real tools</p>
+        </div>
+        <div class="tldr-card">
+          <div class="tldr-icon">🏆</div>
+          <h4>SOTA Performance</h4>
+          <p>Outperforms GPT-5 / Gemini-2.5-Pro / Claude-4-Sonnet agents</p>
+        </div>
+        <!-- 复制一份实现无缝滚动 -->
+        <div class="tldr-card">
+          <div class="tldr-icon">🚀</div>
+          <h4>First Long-Horizon Multimodal MLLM</h4>
+          <p>Dozens of ReAct steps, hundreds of tool calls for deep research</p>
+        </div>
+        <div class="tldr-card">
+          <div class="tldr-icon">🔎</div>
+          <h4>Multi-Entity Visual Search</h4>
+          <p>Greatly improves hit rate under real web noise with multi-scale approach</p>
+        </div>
+        <div class="tldr-card">
+          <div class="tldr-icon">📚</div>
+          <h4>End-to-End Training</h4>
+          <p>30K multimodal trajectories (SFT) + 15K VQA (RL) with real tools</p>
+        </div>
+        <div class="tldr-card">
+          <div class="tldr-icon">🏆</div>
+          <h4>SOTA Performance</h4>
+          <p>Outperforms GPT-5 / Gemini-2.5-Pro / Claude-4-Sonnet agents</p>
+        </div>
       </div>
     </div>
 
@@ -643,29 +702,6 @@
     </div>
     <p class="caption"><strong>Figure 2.</strong> <strong>Motivation:</strong> Existing Vision-DeepResearch benchmarks often fail to measure realistic multimodal search—many questions can be solved via text-only cues or model priors without genuine visual verification, and whole-image search frequently retrieves near-duplicate images with identifying metadata ("perfect retrieval"). VDR-Bench is designed to be visual-search–centric and to reflect real-world settings that require iterative, entity-level localization (e.g., multi-round cropping), cross-modal evidence collection, and multi-hop reasoning.</p>
   </div>
-
-  <!-- Method Section -->
-  <!-- <div class="section">
-    <h2 class="section-title">Method</h2>
-    
-    <div class="method-grid">
-      <div class="method-card method-search">
-        <span class="badge badge-search">Visual Search</span>
-        <h3>Multi-entity, Multi-scale Cropping (CIS)</h3>
-        <p>Localize multiple entities, generate multi-scale crops, parallel image search + web visit + summarization → robust visual evidence.</p>
-      </div>
-      <div class="method-card method-bridge">
-        <span class="badge badge-bridge">Text Bridging</span>
-        <h3>DeepResearch LLM Integration</h3>
-        <p>Convert visual evidence to text, hand off to text DeepResearch LLM for long-horizon web search & reasoning → full multimodal trajectories.</p>
-      </div>
-      <div class="method-card method-train">
-        <span class="badge badge-train">Training</span>
-        <h3>SFT + RL Recipe</h3>
-        <p><strong>SFT:</strong> 30K multimodal trajectories<br><strong>RL:</strong> GRPO on 15K VQA with real online tools, 50 turns / 64K context</p>
-      </div>
-    </div>
-  </div> -->
 
   <!-- Data Pipeline Section -->
   <div class="section">
