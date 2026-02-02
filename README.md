@@ -7,7 +7,7 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 </p>
 
 <p align="center">
-       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B (coming soon)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>&nbsp&nbsp 
+       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B (SFT+RL, coming soon)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>&nbsp&nbsp 
 </p>
 
 <p align="center">
@@ -20,6 +20,27 @@ The datasets, code and weights will be released, stay tuned!
 - [2026/02/02] **We released [Cold-start Dataset (demo)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data), [RL Dataset (demo)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data), [Vision-DeepResearch-8B (SFT-only)](https://huggingface.co/Osilly/Vision-DeepResearch-8B), [VDR-Bench (full)](https://huggingface.co/datasets/Osilly/VDR-Bench), [VDR-Bench (testmini)](https://huggingface.co/datasets/Osilly/VDR-Bench-testmini)**!
 
 ## Demo
+
+### Compare to Other Methods
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=lkRbvU-vWVg">
+    <img src="https://img.youtube.com/vi/lkRbvU-vWVg/maxresdefault.jpg" width="800">
+  </a>
+</p>
+
+### More Cases
+
+<table>
+  <tr>
+    <td><a href="https://www.youtube.com/watch?v=CfjbhG6KLv8"><img src="https://img.youtube.com/vi/CfjbhG6KLv8/hqdefault.jpg" width="400"></a></td>
+    <td><a href="https://www.youtube.com/watch?v=-rluydDbyKs"><img src="https://img.youtube.com/vi/-rluydDbyKs/hqdefault.jpg" width="400"></a></td>
+  </tr>
+  <tr>
+    <td><a href="https://www.youtube.com/watch?v=9feaU9vjxvs"><img src="https://img.youtube.com/vi/9feaU9vjxvs/hqdefault.jpg" width="400"></a></td>
+    <td><a href="https://www.youtube.com/watch?v=UTWLriu1pNQ"><img src="https://img.youtube.com/vi/UTWLriu1pNQ/hqdefault.jpg" width="400"></a></td>
+  </tr>
+</table>
 
 
 ## Performance
