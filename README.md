@@ -1,4 +1,7 @@
-# Vision-DeepResearch & Vision-DeepResearch Benchmark (VDR-Bench)
+<p align="center">
+    <img src="figs/icon.png" width="250" style="margin-bottom: 0.2;"/>
+<p>
+<h1 align="center"> Vision-DeepResearch & Vision-DeepResearch Benchmark (VDR-Bench)</a></h1>
 
 The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models" and "Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models".
 
