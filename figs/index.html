@@ -49,7 +49,7 @@
     /* Header */
     .header-container { 
       text-align: center; 
-      margin-bottom: 50px; 
+      margin-bottom: 30px; 
     }
 
     .title {
@@ -58,14 +58,25 @@
       margin: 0 0 1.5rem 0;
       font-weight: 700;
       color: #111;
+      /* 使用 grid 布局：左侧图标占一列，右侧为可换行的标题文字 */
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      justify-items: start;
     }
 
     /* Title Icon - 与文字等高 */
     .title-icon {
-      height: 1.5em;
       width: auto;
-      vertical-align: middle;
+      /* 设为两行标题高度：2 * line-height * 1em = 2.5em（在 .title 中 1em = font-size） */
+      max-height: 3em;
+      height: auto;
+      /* 跨两行：在 grid 中让图标跨两行显示 */
+      grid-row: 1 / span 2;
       margin-right: 8px;
+      align-self: center;
+      justify-self: start;
     }
 
     /* Authors */
@@ -229,6 +240,61 @@
     .image-container img {
       max-width: 100%;
       border-radius: 12px;
+    }
+
+    /* Demo 视频样式 */
+    .demo-videos {
+      margin: 20px 0;
+    }
+
+    .demo-main video {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #000;
+    }
+    
+    /* 响应式嵌入（用于 iframe 视频） */
+    .embed-responsive {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #000;
+    }
+
+    .embed-responsive iframe,
+    .embed-responsive object,
+    .embed-responsive embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .demo-grid video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: #000;
+    }
+
+    @media (max-width: 768px) {
+      .demo-grid { grid-template-columns: 1fr; }
     }
 
     .teaser-img { 
@@ -522,8 +588,43 @@
       color: var(--color-primary);
     }
 
+    /* Paper Divider */
+    .paper-divider {
+      display: flex;
+      align-items: center;
+      margin: 50px 0 40px 0;
+    }
+
+    .paper-divider::before,
+    .paper-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+    }
+
+    .paper-divider span {
+      padding: 0 25px;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Second Header */
+    .header-container-second {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .header-container-second .title {
+      font-size: 2.3rem;
+    }
+
     @media (max-width: 768px) {
       .title { font-size: 1.8rem; }
+      .header-container-second .title { font-size: 1.6rem; }
       .container { padding: 30px 15px; }
       .method-grid { grid-template-columns: 1fr; }
       .section { padding: 30px 20px; }
@@ -540,7 +641,7 @@
 
 <div class="container">
 
-  <!-- Header -->
+  <!-- ==================== Paper 1: Vision-DeepResearch ==================== -->
   <div class="header-container">
     <h1 class="title">
       <img class="title-icon"
@@ -585,18 +686,12 @@
       <span>✉: Corresponding Author</span>
     </div>
 
-    <!-- Papers -->
+    <!-- Vision-DeepResearch Papers, Datasets & Models（上排四个，底排两个） -->
     <div class="publication-links">
       <span class="link-block">
         <a href="https://arxiv.org/abs/2601.22060" target="_blank">
           <span class="icon">📑</span>
-          <span>Vision-DeepResearch Paper</span>
-        </a>
-      </span>
-      <span class="link-block">
-        <a href="https://github.com/Osilly/Vision-DeepResearch/blob/main/papers/VDR-Bench.pdf" target="_blank">
-          <span class="icon">📑</span>
-          <span>VDR-Bench Paper</span>
+          <span>Paper</span>
         </a>
       </span>
       <span class="link-block">
@@ -605,10 +700,6 @@
           <span>Code</span>
         </a>
       </span>
-    </div>
-
-    <!-- Datasets -->
-    <div class="publication-links">
       <span class="link-block">
         <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data" target="_blank">
           <span class="icon">🤗</span>
@@ -621,21 +712,8 @@
           <span>RL Dataset (demo)</span>
         </a>
       </span>
-      <span class="link-block">
-        <a href="https://huggingface.co/datasets/Osilly/VDR-Bench" target="_blank">
-          <span class="icon">🤗</span>
-          <span>VDR-Bench (full)</span>
-        </a>
-      </span>
-      <span class="link-block">
-        <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini" target="_blank">
-          <span class="icon">🤗</span>
-          <span>VDR-Bench (testmini)</span>
-        </a>
-      </span>
     </div>
 
-    <!-- Models -->
     <div class="publication-links">
       <span class="link-block">
         <a href="https://github.com/Osilly/Vision-DeepResearch" target="_blank" class="coming-soon">
@@ -658,6 +736,96 @@
     </div>
   </div>
 
+  <!-- Divider -->
+  <div class="paper-divider">
+    <span>★ ★ ★ ★ ★</span>
+  </div>
+
+  <!-- ==================== Paper 2: VDR-Bench ==================== -->
+  <div class="header-container-second">
+    <h1 class="title">
+      <img class="title-icon"
+           src="https://github.com/Osilly/Vision-DeepResearch/raw/main/figs/icon.png"
+           alt="VDR-Bench Icon">
+      Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models
+    </h1>
+    
+    <div class="author-block">
+      <a href="#" class="author-primary">Yu Zeng</a><sup>2*</sup>,
+      <a href="#" class="author-primary">Wenxuan Huang</a><sup>1,3*†✉</sup>,
+      <a href="#" class="author-primary">Zhen Fang</a><sup>2*</sup>,
+      <a href="#" class="author-secondary">Shuang Chen</a><sup>5</sup>,
+      <a href="#" class="author-secondary">Yufan Shen</a><sup>6</sup>,
+      <a href="#" class="author-secondary">Yishuo Cai</a><sup>7</sup>,
+      <a href="#" class="author-secondary">Xiaoman Wang</a><sup>3</sup>,
+      <a href="#" class="author-secondary">Zhenfei Yin</a><sup>8</sup>,
+      <a href="#" class="author-secondary">Lin Chen</a><sup>2</sup>,
+      <a href="#" class="author-secondary">Zehui Chen</a><sup>2</sup>,
+      <a href="#" class="author-secondary">Shiting Huang</a><sup>2</sup>,
+      <a href="#" class="author-secondary">Yiming Zhao</a><sup>2</sup>,
+      <a href="#" class="author-secondary">Yao Hu</a><sup>4</sup>,
+      <a href="#" class="author-secondary">Philip Torr</a><sup>8</sup>,
+      <a href="#" class="author-secondary">Wanli Ouyang</a><sup>1,9</sup>,
+      <a href="#" class="author-secondary">Shaosheng Cao</a><sup>4✉</sup>
+    </div>
+
+    <div class="affiliation-block">
+      <span><sup>1</sup>CUHK MMLab</span>
+      <span><sup>2</sup>University of Science and Technology of China</span>
+      <span><sup>3</sup>East China Normal University</span>
+      <span><sup>4</sup>Xiaohongshu Inc.</span>
+      <span><sup>5</sup>The University of California, Los Angeles</span>
+      <span><sup>6</sup>Zhejiang University</span>
+      <span><sup>7</sup>Peking University</span>
+      <span><sup>8</sup>University of Oxford</span>
+      <span><sup>9</sup>Shenzhen Loop Area Institute</span>
+    </div>
+
+    <div class="note">
+      <span>*: Equal Contribution</span>
+      <span>†: Project Leader</span>
+      <span>✉: Corresponding Author</span>
+    </div>
+
+    <!-- VDR-Bench Paper & Code -->
+    <div class="publication-links">
+      <span class="link-block">
+        <a href="https://github.com/Osilly/Vision-DeepResearch/blob/main/papers/VDR-Bench.pdf" target="_blank">
+          <span class="icon">📑</span>
+          <span>Paper</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://github.com/Osilly/Vision-DeepResearch" target="_blank">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>Code</span>
+        </a>
+      </span>
+    </div>
+
+    <!-- VDR-Bench Datasets -->
+    <div class="publication-links">
+      <span class="link-block">
+        <a href="https://huggingface.co/datasets/Osilly/VDR-Bench" target="_blank">
+          <span class="icon">🤗</span>
+          <span>VDR-Bench (full)</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini" target="_blank">
+          <span class="icon">🤗</span>
+          <span>VDR-Bench (testmini)</span>
+        </a>
+      </span>
+    </div>
+
+    <div class="key-highlights">
+      <p>📊 A <strong>vision-centric benchmark</strong> for multimodal deep research evaluation</p>
+      <p>🔬 Requires <strong>genuine visual search</strong> — not solvable by text-only cues or model priors</p>
+      <p>🌐 Reflects <strong>real-world settings</strong> with iterative entity-level localization and multi-hop reasoning</p>
+    </div>
+  </div>
+
   <!-- Teaser Section -->
   <div class="section">
     <h2 class="section-title">Overview</h2>
@@ -667,6 +835,34 @@
       <img src="https://github.com/Osilly/Vision-DeepResearch/raw/main/figs/teaser.png" alt="Vision-DeepResearch Teaser" class="teaser-img">
     </div>
     <p class="caption"><strong>Figure 1.</strong> <strong>(A)</strong> We identify two key limitations of existing multimodal deep-research paradigms: <strong>(A.1)</strong> Prior methods largely ignore the search engine hit-rate problem—a single full-image or entity-level query often fails to retrieve the required evidence, and querying different-scale crops of the same entity yields highly variable results. <strong>(A.2)</strong> Existing methods are constrained in both reasoning depth and retrieval breadth, typically producing only short trajectories. In contrast, our approach supports dozens of reasoning steps and hundreds of engine interactions. <strong>(B)</strong> Pipeline Overview: We synthesize high-quality VQA instances and multi-turn trajectories, then integrate multimodal deep-research capabilities into an MLLM via SFT and RL training, enabling long-horizon reasoning with multi-turn, multi-entity, and multi-scale visual and textual search. <strong>(C)</strong> Performance Comparison: Our model achieves SoTA performance on six benchmarks with comparatively smaller parameters.</p>
+
+    <!-- Demo 视频（compare_demo 全宽；其余 2x2 网格） -->
+    <div class="demo-videos">
+      <div class="demo-main">
+        <div class="embed-responsive">
+          <iframe 
+          src="https://www.youtube.com/embed/lkRbvU-vWVg" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" 
+          allowfullscreen>
+        </iframe>
+        </div>
+      </div>
+      <div class="demo-grid">
+        <video controls preload="metadata" src="https://raw.githubusercontent.com/Osilly/video_demo/main/vision_deepresearch_demo/case1.mp4">
+          Your browser does not support the video tag.
+        </video>
+        <video controls preload="metadata" src="https://raw.githubusercontent.com/Osilly/video_demo/main/vision_deepresearch_demo/case2.mp4">
+          Your browser does not support the video tag.
+        </video>
+        <video controls preload="metadata" src="https://raw.githubusercontent.com/Osilly/video_demo/main/vision_deepresearch_demo/case3.mp4">
+          Your browser does not support the video tag.
+        </video>
+        <video controls preload="metadata" src="https://raw.githubusercontent.com/Osilly/video_demo/main/vision_deepresearch_demo/case4.mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
 
     <!-- TL;DR 滚动卡片 -->
     <div class="tldr-scroll-wrapper">
@@ -721,7 +917,7 @@
     <div class="image-container">
       <img src="https://github.com/Osilly/Vision-DeepResearch/raw/main/figs/vdr_teaser.png" alt="VDR-Bench Teaser" class="teaser-img">
     </div>
-    <p class="caption"><strong>Figure 2.</strong> <strong>Motivation:</strong> Existing Vision-DeepResearch benchmarks often fail to measure realistic multimodal search—many questions can be solved via text-only cues or model priors without genuine visual verification, and whole-image search frequently retrieves near-duplicate images with identifying metadata ("perfect retrieval"). VDR-Bench is designed to be visual-search–centric and to reflect real-world settings that require iterative, entity-level localization (e.g., multi-round cropping), cross-modal evidence collection, and multi-hop reasoning.</p>
+    <p class="caption"><strong>Figure 2.</strong> <strong>Motivation:</strong> Existing Vision-DeepResearch benchmarks often fail to measure realistic multimodal search-many questions can be solved via text-only cues or model priors without genuine visual verification, and whole-image search frequently retrieves near-duplicate images with identifying metadata ("perfect retrieval"). VDR-Bench is designed to be visual-search–centric and to reflect real-world settings that require iterative, entity-level localization (e.g., multi-round cropping), cross-modal evidence collection, and multi-hop reasoning.</p>
   </div>
 
   <!-- Data Pipeline Section -->
@@ -948,6 +1144,116 @@
     </div>
     <p class="caption"><strong>Table 3.</strong> Ablation results on training data and methods. Each row adds components incrementally. VQA trajectories provide the foundation, QA trajectories enable text-based deep research transfer, fuzzy multi-hop VQA covers long-tail settings, and RL training refines long-horizon decision making through online interaction.</p>
   </div>
+
+  <!-- VDR-Bench Detailed Results Section -->
+  <div class="section">
+    <h2 class="section-title">VDR-Bench Detailed Results</h2>
+    <p class="section-subtitle">Performance Comparison of Models Across Different Categories (Accuracy %)</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="model-name">Model / Setting</th>
+            <th>People</th>
+            <th>Object</th>
+            <th>Arch.</th>
+            <th>Nature</th>
+            <th>Sci&Tech</th>
+            <th>Art&Music</th>
+            <th>Sports</th>
+            <th>Movie</th>
+            <th>Game</th>
+            <th>Other</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row">
+            <td colspan="12">Gemini 2.5 Pro</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>6.4</td><td>9.8</td><td>9.8</td><td>8.2</td><td>12.0</td><td>11.8</td><td>4.2</td><td>2.0</td><td>7.7</td><td>9.6</td><td>8.2</td>
+          </tr>
+          <tr>
+            <td class="model-name">CIS+TS</td>
+            <td>14.9</td><td>15.7</td><td>27.5</td><td>12.2</td><td>24.0</td><td>17.6</td><td>12.5</td><td>10.2</td><td>1.9</td><td>25.0</td><td>16.2</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS+MVF</td>
+            <td>38.3</td><td>23.5</td><td>33.3</td><td>24.5</td><td>22.0</td><td>39.2</td><td>25.0</td><td>24.5</td><td>21.2</td><td>48.1</td><td><strong>30.0</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">GPT-5</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>4.4</td><td>9.8</td><td>11.7</td><td>12.3</td><td>10.0</td><td>7.8</td><td>8.4</td><td>8.2</td><td>3.8</td><td>13.5</td><td>9.5</td>
+          </tr>
+          <tr>
+            <td class="model-name">CIS+TS</td>
+            <td>20.8</td><td>17.6</td><td>14.0</td><td>16.7</td><td>24.5</td><td>21.2</td><td>12.5</td><td>19.3</td><td>20.8</td><td>25.0</td><td>19.2</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS+MVF</td>
+            <td>23.4</td><td>25.5</td><td>23.5</td><td>20.4</td><td>18.0</td><td>27.5</td><td>22.9</td><td>30.6</td><td>30.8</td><td>42.3</td><td><strong>26.6</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Claude-4-Sonnet</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>2.1</td><td>3.9</td><td>7.8</td><td>6.2</td><td>10.0</td><td>7.8</td><td>2.2</td><td>0.0</td><td>3.8</td><td>5.6</td><td>5.6</td>
+          </tr>
+          <tr>
+            <td class="model-name">CIS+TS</td>
+            <td>14.9</td><td>9.8</td><td>19.6</td><td>16.3</td><td>18.0</td><td>11.8</td><td>10.4</td><td>4.1</td><td>3.8</td><td>23.1</td><td>13.2</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS+MVF</td>
+            <td>12.5</td><td>17.6</td><td>24.0</td><td>35.4</td><td>15.1</td><td>26.9</td><td>16.7</td><td>12.3</td><td>23.1</td><td>24.4</td><td><strong>20.6</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Qwen3-VL-30B-A3B-Instruct</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>3.9</td><td>3.9</td><td>6.1</td><td>2.0</td><td>4.1</td><td>0.0</td><td>7.7</td><td>3.8</td><td>0.0</td><td>7.8</td><td>3.9</td>
+          </tr>
+          <tr>
+            <td class="model-name">CIS+TS</td>
+            <td>17.0</td><td>19.6</td><td>17.6</td><td>16.3</td><td>20.0</td><td>5.9</td><td>14.6</td><td>10.2</td><td>5.8</td><td>44.2</td><td>17.2</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS+MVF</td>
+            <td>25.5</td><td>21.6</td><td>23.5</td><td>18.4</td><td>8.0</td><td>23.5</td><td>16.7</td><td>18.4</td><td>28.8</td><td>26.9</td><td><strong>21.2</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Qwen3-VL-235B-A22B-Instruct</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>6.2</td><td>3.9</td><td>10.0</td><td>22.9</td><td>7.5</td><td>13.5</td><td>6.2</td><td>3.5</td><td>7.5</td><td>7.5</td><td>8.8</td>
+          </tr>
+          <tr>
+            <td class="model-name">CIS+TS</td>
+            <td>25.2</td><td>19.5</td><td>24.0</td><td>21.1</td><td>18.5</td><td>17.1</td><td>10.7</td><td>29.1</td><td>16.6</td><td>31.5</td><td>21.2</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS+MVF</td>
+            <td>25.0</td><td>23.5</td><td>30.0</td><td>31.2</td><td>30.2</td><td>28.8</td><td>20.8</td><td>22.8</td><td>30.2</td><td>32.5</td><td><strong>27.4</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption"><strong>Table 4.</strong> Performance Comparison of Models Across Different Categories on VDR-Bench. <strong>Direct Answer:</strong> models directly answer VQA without search tools. <strong>CIS+TS:</strong> Cropped Image Search + Text Search. <strong>MVF:</strong> Multi-turn Visual Forcing strategy. The MVF strategy consistently improves performance across all models, with Gemini 2.5 Pro achieving the highest overall score (30.0%) after applying MVF.</p>
+  </div>
+  
 
   <!-- Citation Section -->
   <div class="section">
