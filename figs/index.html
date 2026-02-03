@@ -1185,7 +1185,7 @@
 
   <!-- VDR-Bench Detailed Results Section -->
   <div class="section">
-    <h2 class="section-title">VDR-Bench Detailed Results</h2>
+    <h2 class="section-title">VDR-Bench (full) Detailed Results</h2>
     <p class="section-subtitle">Performance Comparison of Models Across Different Categories (Accuracy %)</p>
 
     <div class="table-container">
@@ -1292,6 +1292,119 @@
     <p class="caption"><strong>Table 4.</strong> Performance Comparison of Models Across Different Categories on VDR-Bench. <strong>Direct Answer:</strong> models directly answer VQA without search tools. <strong>CIS+TS:</strong> Cropped Image Search + Text Search. <strong>MVF:</strong> Multi-turn Visual Forcing strategy. The MVF strategy consistently improves performance across all models, with Gemini 2.5 Pro achieving the highest overall score (30.0%) after applying MVF.</p>
   </div>
   
+  <!-- VDR-Bench Testmini Results Section -->
+  <div class="section">
+    <h2 class="section-title">VDR-Bench (testmini) Detailed Results</h2>
+    <p class="section-subtitle">Performance Comparison of Models Across Different Categories (Accuracy %)</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="model-name">Model / Setting</th>
+            <th>People</th>
+            <th>Object</th>
+            <th>Arch.</th>
+            <th>Nature</th>
+            <th>Sci&Tech</th>
+            <th>Art&Music</th>
+            <th>Sports</th>
+            <th>Movie</th>
+            <th>Game</th>
+            <th>Other</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row">
+            <td colspan="12">Gemini 2.5 Pro</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>12.5</td><td>2.0</td><td>8.0</td><td>8.3</td><td>0.0</td><td>15.4</td><td>6.3</td><td>5.3</td><td>9.4</td><td>15.0</td><td>8.0</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>22.9</td><td>21.6</td><td>14.0</td><td>16.7</td><td>17.0</td><td>17.3</td><td>20.8</td><td>21.1</td><td>11.3</td><td>22.5</td><td><strong>18.8</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">GPT-5</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>6.3</td><td>9.8</td><td>12.0</td><td>12.5</td><td>11.3</td><td>7.7</td><td>8.3</td><td>8.8</td><td>9.4</td><td>12.5</td><td>9.5</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>14.6</td><td>27.5</td><td>20.0</td><td>29.2</td><td>15.1</td><td>26.9</td><td>10.4</td><td>14.0</td><td>11.3</td><td>32.5</td><td><strong>20.4</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Claude-4-Sonnet</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>1.8</td><td>3.8</td><td>12.5</td><td>2.0</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>18.8</td><td>11.8</td><td>14.0</td><td>18.8</td><td>13.2</td><td>13.5</td><td>8.3</td><td>5.3</td><td>3.8</td><td>22.5</td><td><strong>13.6</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Qwen3-VL-30B-A3B-Instruct</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>2.1</td><td>2.0</td><td>6.0</td><td>4.2</td><td>3.8</td><td>5.8</td><td>2.1</td><td>3.5</td><td>7.5</td><td>7.5</td><td>3.8</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>12.5</td><td>25.5</td><td>16.0</td><td>22.9</td><td>15.1</td><td>19.2</td><td>10.4</td><td>24.6</td><td>3.8</td><td>45.0</td><td><strong>20.2</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Qwen3-VL-235B-A22B-Instruct</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>6.3</td><td>2.0</td><td>8.0</td><td>22.9</td><td>1.9</td><td>9.6</td><td>8.3</td><td>3.5</td><td>13.2</td><td>7.5</td><td>7.9</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>25.0</td><td>13.7</td><td>22.0</td><td>20.8</td><td>17.0</td><td>17.3</td><td>8.3</td><td>26.3</td><td>15.1</td><td>45.0</td><td><strong>20.8</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Vision-DeepResearch-8B</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>6.3</td><td>0.0</td><td>10.0</td><td>2.1</td><td>0.0</td><td>3.8</td><td>0.0</td><td>0.0</td><td>0.0</td><td>12.5</td><td>3.2</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>24.5</td><td>35.8</td><td>21.2</td><td>38.4</td><td>18.6</td><td>33.1</td><td>27.7</td><td>31.5</td><td>30.2</td><td>29.5</td><td><strong>29.2</strong></td>
+          </tr>
+          
+          <tr class="category-row">
+            <td colspan="12">Vision-DeepResearch-30B</td>
+          </tr>
+          <tr>
+            <td class="model-name">Direct Answer</td>
+            <td>6.2</td><td>0.0</td><td>6.0</td><td>8.3</td><td>5.7</td><td>5.8</td><td>6.2</td><td>0.0</td><td>5.7</td><td>5.0</td><td>4.8</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name">CIS+TS</td>
+            <td>35.4</td><td>43.1</td><td>44.0</td><td>33.3</td><td>32.1</td><td>32.7</td><td>35.4</td><td>36.8</td><td>35.8</td><td>52.5</td><td><strong>37.8</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption"><strong>Table 5.</strong> Performance comparison of models across different categories on VDR-Bench testmini set. <strong>Direct Answer:</strong> the model answers VQA directly without search tools. <strong>CIS+TS:</strong> adopting both the cropped-image search and text search. Vision-DeepResearch-30B achieves the highest overall accuracy (37.8%) on the testmini set, demonstrating strong performance across all categories.</p>
+  </div>
+
 
   <!-- Citation Section -->
   <div class="section">
