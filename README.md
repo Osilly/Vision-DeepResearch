@@ -19,7 +19,7 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 </p>
 
 <p align="center">
-  📑<a href="https://arxiv.org/abs/2601.22060">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://github.com/Osilly/Vision-DeepResearch/blob/main/papers/VDR-Bench.pdf">VDR-Bench Paper</a>&nbsp&nbsp
+  📑<a href="https://arxiv.org/abs/2601.22060">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://arxiv.org/abs/2602.02185">VDR-Bench Paper</a>&nbsp&nbsp
 </p>
 The datasets, code and weights will be released, stay tuned!
 
