@@ -6,6 +6,11 @@
 The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models" and "Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models".
 
 <p align="center">
+<img src="figs/icon.png" alt="logo" height="40" align="center" />
+<a href="https://osilly.github.io/Vision-DeepResearch/">Project Page</a>
+</p>
+
+<p align="center">
        🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini">VDR-Bench (testmini)</a>&nbsp&nbsp
 </p>
 
