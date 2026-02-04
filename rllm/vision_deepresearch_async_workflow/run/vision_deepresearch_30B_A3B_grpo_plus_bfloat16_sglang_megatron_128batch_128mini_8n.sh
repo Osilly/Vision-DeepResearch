@@ -69,7 +69,7 @@ exp_name='vision_deepresearch_30B_A3B_grpo_plus_bfloat16_sglang_megatron_128batc
 MODEL_PATH=Qwen/Qwen3-VL-30B-A3B-Instruct
 CKPTS_DIR=checkpoints/${project_name}/${exp_name}
 
-python3 -m examples.tongyi_deepresearch.async_workflow.train_deepresearch_workflow_megatron \
+python3 -m vision_deepresearch_async_workflow.train_deepresearch_workflow_megatron \
     algorithm.adv_estimator=${adv_estimator} \
     algorithm.kl_ctrl.kl_coef=${kl_coef} \
     actor_rollout_ref.actor.kl_loss_type=low_var_kl \
