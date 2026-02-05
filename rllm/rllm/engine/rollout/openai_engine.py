@@ -10,6 +10,54 @@ from rllm.parser import ChatTemplateParser
 from rllm.tools.tool_base import Tool
 from rllm.workflows import TerminationEvent, TerminationReason
 
+import base64
+from io import BytesIO
+from PIL import Image
+
+def process_messages_for_api(original_messages):
+    new_messages = []
+
+    for msg in original_messages:
+        # 复制一份，避免修改原始数据
+        new_msg = msg.copy()
+
+        # 检查是否包含 'images' 字段且不为空
+        if 'images' in new_msg and new_msg['images']:
+            pil_images = new_msg.pop('images')  # 取出并从字典中删除 'images' 键
+            original_text = new_msg['content']
+
+            # 构造符合 OpenAI Vision 格式的 content 列表
+            content_list = []
+
+            # 1. 先放入文本
+            if original_text:
+                content_list.append({
+                    "type": "text",
+                    "text": original_text
+                })
+
+            # 2. 再放入图片
+            for img in pil_images:
+                # 将 PIL 图片转换为 Base64
+                buffered = BytesIO()
+                # 注意: 建议转换为 JPEG 以减小体积，除非你需要 PNG 的透明通道
+                img.save(buffered, format="JPEG")
+                img_b64_str = base64.b64encode(
+                    buffered.getvalue()).decode('utf-8')
+
+                content_list.append({
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{img_b64_str}"
+                    }
+                })
+
+            # 更新 content
+            new_msg['content'] = content_list
+
+        new_messages.append(new_msg)
+
+    return new_messages
 
 class OpenAIEngine(RolloutEngine):
     def __init__(self, model: str = "", tokenizer=None, max_prompt_length: int = 4096, max_response_length: int = 4096, max_model_length: int | None = None, api_retries: int = 3, base_url: str = "https://api.openai.com/v1", api_key: str = os.getenv("OPENAI_API_KEY"), sampling_params: dict | None = None, tools: list[Tool | dict] = None, accumulate_reasoning: bool = False, **kwargs):
@@ -64,6 +112,8 @@ class OpenAIEngine(RolloutEngine):
         retries = self.api_retries
         while retries > 0:
             try:
+                # 对话转换
+                messages = process_messages_for_api(messages)
                 response = await self.client.chat.completions.create(model=self.model, messages=messages, timeout=3600, **create_params, **sampling_params)
 
                 content = response.choices[0].message.content

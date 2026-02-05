@@ -129,6 +129,11 @@ The datasets, code and weights will be released, stay tuned!
 
 
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Osilly/Vision-DeepResearch&type=date&legend=top-left)](https://www.star-history.com/#Osilly/Vision-DeepResearch&type=date&legend=top-left)
+
+
 ## Citation
 
 ```
@@ -146,4 +151,3 @@ The datasets, code and weights will be released, stay tuned!
   year={2026}
 }
 ```
-
