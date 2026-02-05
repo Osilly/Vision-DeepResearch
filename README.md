@@ -129,3 +129,21 @@ The datasets, code and weights will be released, stay tuned!
 
 
 
+## Citation
+
+```
+@article{huang2026vision,
+  title={Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models},
+  author={Huang, Wenxuan and Zeng, Yu and Wang, Qiuchen and Fang, Zhen and Cao, Shaosheng and Chu, Zheng and Yin, Qingyu and Chen, Shuang and Yin, Zhenfei and Chen, Lin and others},
+  journal={arXiv preprint arXiv:2601.22060},
+  year={2026}
+}
+
+@article{zeng2026vision,
+  title={Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models},
+  author={Zeng, Yu and Huang, Wenxuan and Fang, Zhen and Chen, Shuang and Shen, Yufan and Cai, Yishuo and Wang, Xiaoman and Yin, Zhenfei and Chen, Lin and Chen and others},
+  journal={arXiv preprint arXiv:2602.02185},
+  year={2026}
+}
+```
+
