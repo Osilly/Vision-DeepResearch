@@ -142,9 +142,14 @@ cd ..
 ```
 
 ### Data Preparation
+#### SFT Data
 Download the [Cold-start dataset (Demo 1K)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data).
 
+You need to convert the data in `Parquet` format into the `JSONL` training format supported by ms-swift. We provide a conversion script for this purpose: `ms-swift/run/data_prepare/convert_parquet2jsonl.sh`.
 
+You need to provide an `--image_dir`, where images stored as bytes in the Parquet file will be converted to `.png`/`.jpg` files and saved to disk.
+
+#### RL Data
 Download the [RL dataset (Demo 1K)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data).
 
 ### SFT Train
