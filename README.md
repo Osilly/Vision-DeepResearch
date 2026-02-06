@@ -155,7 +155,22 @@ bash run/vision_deepresearch_SFT_30B_A3B_megatron_lr2e5_2ep.sh
 ```
 
 ### RL
+First, deploy the Extract model (used to summarize web page contents) and the Judge model:
+```bash
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve \
+ Qwen/Qwen3-VL-30B-A3B-Instruct \
+  --host 0.0.0.0 \
+  --port 8001 \
+  --tensor-parallel-size 8 \
+  --gpu-memory-utilization 0.8 \
+  --served-model-name "Qwen3-VL-30B-A3B-Instruct" \
+  --max_model_len 160000 \
+  --mm-processor-cache-gb 0 \
+  --no-enable-prefix-caching
+```
+Then, modify the vLLM URL service endpoints for `JUDGE_MODEL` and `EXTRACT_MODEL` in `rllm/.env`, and enter your `SERP_API_KEY`, `JINA_API_KEY`, and `OSS` configuration.
 
+Run RL train.
 ```bash
 cd rllm
 bash vision_deepresearch_async_workflow/run/vision_deepresearch_30B_A3B_grpo_plus_bfloat16_sglang_megatron_128batch_128mini_8n.sh
