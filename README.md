@@ -109,24 +109,97 @@ The datasets, code and weights will be released, stay tuned!
 
 ![](figs/vdr_data_pipeline.png)
 
-## Train
+## Quickstart
+
+### Environment Setup
+```bash
+# 1. Clone the repository
+git clone https://github.com/Osilly/Vision-DeepResearch.git
+cd Vision-DeepResearch
+
+# 2. Install verl
+cd rllm/verl
+pip install -e .
+
+# 3. Install Megatron-LM
+cd ../../Megatron-LM
+pip install -e .
+
+# 4. Install mbridge
+cd ../mbridge
+pip install -e .
+
+# 5. Install rllm
+cd ../rllm
+pip install -e .
+
+# 6. Install additional dependencies
+pip install requests==2.32.3
+pip install oss2
+
+# 7. Return to the project root directory
+cd ..
+```
+
+### Data Preparation
+Download the [Cold-start dataset (Demo 1K)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data).
+
+
+Download the [RL dataset (Demo 1K)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data).
 
 ### SFT
 
-
+```bash
+cd ms-swift
+bash run/vision_deepresearch_SFT_30B_A3B_megatron_lr2e5_2ep.sh
+```
 
 ### RL
 
+```bash
+cd rllm
+bash vision_deepresearch_async_workflow/run/vision_deepresearch_30B_A3B_grpo_plus_bfloat16_sglang_megatron_128batch_128mini_8n.sh
+```
 
+### Eval
+Run the command below to start an OpenAI-compatible API service:
 
-## Eval
+Vision-DeepResearch model:
+```bash
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve \
+ Osilly/Vision-DeepResearch-8B \
+  --host 0.0.0.0 \
+  --port 8001 \
+  --tensor-parallel-size 8 \
+  --gpu-memory-utilization 0.8 \
+  --served-model-name "Vision-DeepResearch-8B" \
+  --max_model_len 160000 \
+  --mm-processor-cache-gb 0 \
+  --no-enable-prefix-caching
+```
 
-### Verl Rollout Engine
+Extract model (used to summarize web page contents) and Judge model:
+```bash
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve \
+ Qwen/Qwen3-VL-30B-A3B-Instruct \
+  --host 0.0.0.0 \
+  --port 8001 \
+  --tensor-parallel-size 8 \
+  --gpu-memory-utilization 0.8 \
+  --served-model-name "Qwen3-VL-30B-A3B-Instruct" \
+  --max_model_len 160000 \
+  --mm-processor-cache-gb 0 \
+  --no-enable-prefix-caching
+```
 
+Modify the vLLM URL service endpoints for `JUDGE_MODEL` and `EXTRACT_MODEL` in `rllm/.env`, and enter your `SERP_API_KEY`, `JINA_API_KEY`, and `OSS` configuration.
 
+Modify the `base-url` and `model` (the Vision DeepResearch vLLM service endpoint and model name) in `rllm/eval/run_eval.sh`. For the data format of `test.parquet`, refer to `rllm/eval/README.md`.
 
-### Openai Rollout Engine
-
+Run `rllm/eval/run_eval.sh` to start inference.
+```bash
+bash rllm/eval/run_eval.sh
+```
 
 
 ## Star History
