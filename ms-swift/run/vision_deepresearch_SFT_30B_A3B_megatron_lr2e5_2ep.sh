@@ -1,5 +1,5 @@
 # 4 * 8 * 80GiB
-wandb login 5c4df3def03f91a6095ea798bf65699f3a50a664
+wandb login `Your wandb key`
 
 PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True' \
 OMP_NUM_THREADS=32 \
