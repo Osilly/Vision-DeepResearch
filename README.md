@@ -147,14 +147,14 @@ Download the [Cold-start dataset (Demo 1K)](https://huggingface.co/datasets/Osil
 
 Download the [RL dataset (Demo 1K)](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data).
 
-### SFT
+### SFT Train
 
 ```bash
 cd ms-swift
 bash run/vision_deepresearch_SFT_30B_A3B_megatron_lr2e5_2ep.sh
 ```
 
-### RL
+### RL Train
 First, deploy the Extract model (used to summarize web page contents) and the Judge model:
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 vllm serve \
