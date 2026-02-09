@@ -243,7 +243,7 @@ bash rllm/eval/run_eval.sh
 
 @article{zeng2026vision,
   title={Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models},
-  author={Zeng, Yu and Huang, Wenxuan and Fang, Zhen and Chen, Shuang and Shen, Yufan and Cai, Yishuo and Wang, Xiaoman and Yin, Zhenfei and Chen, Lin and Chen and others},
+  author={Zeng, Yu and Huang, Wenxuan and Fang, Zhen and Chen, Shuang and Shen, Yufan and Cai, Yishuo and Wang, Xiaoman and Yin, Zhenfei and Chen, Lin and Chen, Zehui and others},
   journal={arXiv preprint arXiv:2602.02185},
   year={2026}
 }
