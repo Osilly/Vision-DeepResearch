@@ -225,7 +225,6 @@ Run `rllm/eval/run_eval.sh` to start inference.
 bash rllm/eval/run_eval.sh
 ```
 
-
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Osilly/Vision-DeepResearch&type=date&legend=top-left)](https://www.star-history.com/#Osilly/Vision-DeepResearch&type=date&legend=top-left)
