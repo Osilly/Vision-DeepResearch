@@ -11,7 +11,11 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 </p>
 
 <p align="center">
-       🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini">VDR-Bench (testmini)</a>&nbsp&nbsp
+       
+</p>
+
+<p align="center">
+       🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini">VDR-Bench (testmini)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Eval">VQA Benchmark Subset</a>&nbsp&nbsp
 </p>
 
 <p align="center">
@@ -24,6 +28,10 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 The datasets, code and weights will be released, stay tuned!
 
 ## Timeline
+
+- [2026/05/24] **We have released the subset of our used benchmark subset and detailed evaluation guidance**! Please see [VQA Benchmark Subset](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Eval) and [Eval Guidance](https://github.com/Osilly/Vision-DeepResearch/blob/main/rllm/eval/README.md).
+
+- [2026/05/01] **Vision-DeepResearch has been accepted by ICML 2026**! Nice to see you at the conference!
 
 - [2026/02/03] **We released [SFT code](https://github.com/Osilly/Vision-DeepResearch/tree/main/ms-swift/run), [RL code](https://github.com/Osilly/Vision-DeepResearch/tree/main/rllm/vision_deepresearch_async_workflow)**! We will finish the guidance later, stay tune!
 
