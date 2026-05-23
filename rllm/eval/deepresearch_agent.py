@@ -10,8 +10,7 @@ import re
 from collections import Counter
 import json5
 
-# rLLM imports
-from rllm.engine.rollout import RolloutEngine
+from openai import AsyncOpenAI
 
 # Constants from original DeepResearch
 OBS_START = "<tool_response>"
@@ -186,12 +185,14 @@ class MultiTurnReactAgent:
     Multi-turn ReAct Agent adapted from Tongyi DeepResearch.
 
     This agent implements the core reasoning loop with tool calling capabilities,
-    using rLLM's OpenAI engine for model inference.
+    using AsyncOpenAI for model inference.
     """
 
     def __init__(
         self,
-        rollout_engine: RolloutEngine,
+        client: AsyncOpenAI,
+        model: str,
+        sampling_params: dict = None,
         tools: dict = None,
         system_prompt: str | None = None,
         default_max_tries: int = 3,
@@ -201,134 +202,66 @@ class MultiTurnReactAgent:
         Initialize the ReAct agent.
 
         Args:
-            rollout_engine: rLLM OpenAI engine for model inference
+            client: AsyncOpenAI client for model inference
+            model: Model name to use
+            sampling_params: Sampling parameters (temperature, top_p, max_tokens, etc.)
             tools: Dictionary of available tools {tool_name: tool_instance}
             system_prompt: Optional custom system prompt
         """
-        self.rollout_engine = rollout_engine
+        self.client = client
+        self.model = model
+        self.sampling_params = sampling_params or {}
         self.tools = tools or {}
         self.system_prompt = system_prompt
-        # Configuration from original DeepResearch
         self.max_llm_calls = MAX_LLM_CALL_PER_RUN
         self.default_max_tries = default_max_tries
 
-        # Smart context management using actual API consumption
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
 
-        # Auto-detect context limit based on model capabilities
-        # Maintain explicit prompt/response budgets to stay aligned with rollout engine enforcement
-        self.max_prompt_tokens, self.max_response_tokens, self.max_context_tokens = (
-            self._get_model_context_limits(rollout_engine)
-        )
-
-    def _get_model_context_limits(self, rollout_engine) -> tuple[int, int, int]:
-        """Infer prompt/response/context budgets from rollout engine configuration."""
-        default_prompt = 2048
-        default_response = 2048
-
-        max_prompt = default_prompt
-        max_response = default_response
-
-        config = rollout_engine.config if hasattr(rollout_engine, "config") else None
-        data_cfg = (
-            config.data if config is not None and hasattr(config, "data") else None
-        )
-
-        if data_cfg is not None:
-            if hasattr(data_cfg, "max_prompt_length") and data_cfg.max_prompt_length:
-                max_prompt = int(data_cfg.max_prompt_length)
-            if (
-                hasattr(data_cfg, "max_response_length")
-                and data_cfg.max_response_length
-            ):
-                max_response = int(data_cfg.max_response_length)
-
-        if (
-            hasattr(rollout_engine, "max_prompt_length")
-            and rollout_engine.max_prompt_length
-        ):
-            max_prompt = int(rollout_engine.max_prompt_length)
-        if (
-            hasattr(rollout_engine, "max_response_length")
-            and rollout_engine.max_response_length
-        ):
-            max_response = int(rollout_engine.max_response_length)
-
-        # Ensure positive values
-        max_prompt = max(max_prompt, 1)
-        max_response = max(max_response, 1)
-
-        return max_prompt, max_response, max_prompt + max_response
+        self.max_prompt_tokens = 32768
+        self.max_response_tokens = 8192
+        self.max_context_tokens = self.max_prompt_tokens + self.max_response_tokens
 
     def sanity_check_output(self, content: str) -> bool:
         """Check if the model output contains the expected thinking structure."""
         return "<think>" in content and "</think>" in content
 
+    def _extract_content(self, response) -> str:
+        """Extract text content from an OpenAI chat completion response."""
+        if response is None:
+            return ""
+        if hasattr(response, "choices") and response.choices:
+            return response.choices[0].message.content or ""
+        return ""
+
     async def call_server(
         self, messages: list[dict], max_tries: Optional[int] = None, **kwargs
     ):
-        """Call rollout engine once; assumes XML ReAct format."""
+        """Call OpenAI-compatible endpoint; assumes XML ReAct format."""
         try:
-            response = await self.rollout_engine.get_model_response(
-                messages=messages, **kwargs
+            resp = await self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                **self.sampling_params,
             )
-
-            if hasattr(response, "prompt_length") and hasattr(
-                response, "completion_length"
-            ):
-                self.total_prompt_tokens += response.prompt_length
-                self.total_completion_tokens += response.completion_length
-
-            return response
-        except Exception as exc:  # noqa: BLE001
+            if resp.usage:
+                self.total_prompt_tokens = resp.usage.prompt_tokens or 0
+                self.total_completion_tokens = resp.usage.completion_tokens or 0
+            return resp
+        except Exception as exc:
             print(f"call_server failed: {exc}")
             raise
 
     def record_token_usage(self, response) -> None:
-        """Record the latest prompt/completion token count from rollout engine."""
-        prompt_tokens = getattr(response, "prompt_length", None)
-        completion_tokens = getattr(response, "completion_length", None)
-
-        if prompt_tokens is not None:
-            try:
-                self.total_prompt_tokens = int(prompt_tokens)
-            except (TypeError, ValueError):  # noqa: PERF203
-                self.total_prompt_tokens = 0
-
-        if completion_tokens is not None:
-            try:
-                self.total_completion_tokens = int(completion_tokens)
-            except (TypeError, ValueError):  # noqa: PERF203
-                self.total_completion_tokens = 0
+        """Record the latest prompt/completion token count from response."""
+        if response and hasattr(response, "usage") and response.usage:
+            self.total_prompt_tokens = response.usage.prompt_tokens or 0
+            self.total_completion_tokens = response.usage.completion_tokens or 0
 
     def get_total_tokens_used(self) -> int:
-        """Return the latest prompt + completion token usage reported by the engine."""
+        """Return the latest prompt + completion token usage."""
         return self.total_prompt_tokens + self.total_completion_tokens
-
-    def _estimate_prompt_tokens(self, messages: list[dict]) -> int:
-        """Estimate prompt length for the next call using the rollout engine's tokenizer."""
-        tokenizer = getattr(self.rollout_engine, "tokenizer", None)
-        chat_parser = getattr(self.rollout_engine, "chat_parser", None)
-
-        if tokenizer is None or chat_parser is None:
-            return self.total_prompt_tokens
-
-        try:
-            prompt = chat_parser.parse(
-                messages,
-                add_generation_prompt=True,
-                is_first_msg=True,
-                tools=[],
-                accumulate_reasoning=getattr(
-                    self.rollout_engine, "accumulate_reasoning", False
-                ),
-            )
-            token_ids = tokenizer.encode(prompt, add_special_tokens=False)
-            return len(token_ids)
-        except Exception as exc:  # noqa: BLE001
-            print(f"[TokenEstimator] Failed to estimate prompt tokens: {exc}")
-            return self.total_prompt_tokens
 
     def _build_result(
         self,
@@ -340,7 +273,6 @@ class MultiTurnReactAgent:
         termination: str,
         rounds: int,
         start_time: float,
-        # next_prompt_tokens: int | None = None,
     ) -> dict:
         """Assemble result payload with token usage metadata."""
         token_usage = {
@@ -372,16 +304,11 @@ class MultiTurnReactAgent:
         """
         Main reasoning loop adapted from original DeepResearch.
 
-        This is the core ReAct implementation that handles:
-        - Multi-turn conversation
-        - Tool calling and execution
-        - Context length management
-        - Termination conditions
-
         Args:
             question: The research question to answer
             answer: Ground truth answer (for evaluation)
-            images: List of image data URLs (base64 encoded)
+            images: List of image data URLs (base64-encoded data: URIs)
+            image_path: Local path to the first image (for crop_and_search)
 
         Returns:
             Dictionary with results including messages, prediction, and termination reason
@@ -393,18 +320,15 @@ class MultiTurnReactAgent:
         ) + today_date()
 
         if images:
-            user_message = {
-                "role": "user",
-                "content": question,
-                "images": images,
-            }
+            # Build OpenAI multimodal content list
+            content_parts = [{"type": "text", "text": question}]
+            for img_url in images:
+                content_parts.append(
+                    {"type": "image_url", "image_url": {"url": img_url}}
+                )
+            user_message = {"role": "user", "content": content_parts}
         else:
             user_message = {"role": "user", "content": question}
-
-        messages = [
-            {"role": "system", "content": system_prompt},
-            user_message,
-        ]
 
         if not images:
             messages = [
@@ -412,6 +336,11 @@ class MultiTurnReactAgent:
                     "role": "system",
                     "content": DEEPRESEARCH_SYSTEM_PROMPT_TEXT + today_date(),
                 },
+                user_message,
+            ]
+        else:
+            messages = [
+                {"role": "system", "content": system_prompt},
                 user_message,
             ]
 
@@ -426,10 +355,10 @@ class MultiTurnReactAgent:
             round += 1
             num_llm_calls_available -= 1
 
-            # Get model response from rollout engine
+            # Get model response
             try:
                 response = await self.call_server(messages, **kwargs)
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 prediction = "call_server failed"
                 termination = "error"
                 return self._build_result(
@@ -442,16 +371,10 @@ class MultiTurnReactAgent:
                     start_time=start_time,
                 )
 
-            # Synchronize token usage with rollout engine feedback
             self.record_token_usage(response)
-
-            # Extract text content (may be None for pure function calling)
-            content = (
-                response.text if hasattr(response, "text") and response.text else ""
-            )
+            content = self._extract_content(response)
 
             if "<tool_call>" in content:
-                # Extract tool name for display
                 if "python" in content.lower() and "<code>" in content:
                     pass
                 elif '"name":' in content:
@@ -536,7 +459,6 @@ class MultiTurnReactAgent:
                 messages.append({"role": "user", "content": tool_response})
 
             # Check for final answer AFTER processing tools
-            # This allows o3 to execute tools even when it includes answer in same message
             elif "<answer>" in content and "</answer>" in content:
                 messages.append(
                     {
@@ -570,8 +492,7 @@ class MultiTurnReactAgent:
 
                         try:
                             response = await self.call_server(messages)
-                            final_content = response.text if hasattr(
-                                response, "text") and response.text else ""
+                            final_content = self._extract_content(response)
                             messages.append(
                                 {"role": "assistant", "content": final_content.strip()})
 
@@ -585,7 +506,7 @@ class MultiTurnReactAgent:
                                 termination = "answer"
                         except Exception as exc:
                             prediction = "No answer found due to content repetition and model failure."
-                            termination = f"answer"
+                            termination = "answer"
 
                         break
                     else:
@@ -625,8 +546,7 @@ class MultiTurnReactAgent:
 
                 try:
                     response = await self.call_server(messages)
-                    final_content = response.text if hasattr(
-                        response, "text") and response.text else ""
+                    final_content = self._extract_content(response)
                     messages.append(
                         {"role": "assistant", "content": final_content.strip()})
 
@@ -655,7 +575,7 @@ class MultiTurnReactAgent:
         last_message_content = (
             messages[-1].get("content", "") if isinstance(messages[-1], dict) else ""
         )
-        if last_message_content and "<answer>" in last_message_content:
+        if isinstance(last_message_content, str) and "<answer>" in last_message_content:
             prediction = last_message_content.split("<answer>")[1].split("</answer>")[0]
             termination = "answer"
         else:
@@ -674,41 +594,28 @@ class MultiTurnReactAgent:
             start_time=start_time,
         )
 
-        print("\n🏁 DeepResearch completed:")
+        print("\nDeepResearch completed:")
         print(f"   Rounds: {round}")
         print(f"   Time: {result['time_taken']:.1f}s")
         print(f"   Termination: {termination}")
         print(
-            "   Token usage: prompt={prompt}, completion={completion}, max_prompt={max_prompt}".format(
+            "   Token usage: prompt={prompt}, completion={completion}".format(
                 prompt=self.total_prompt_tokens,
                 completion=self.total_completion_tokens,
-                max_prompt=self.max_prompt_tokens,
             )
         )
         return result
 
     async def custom_call_tool(self, tool_name: str, tool_args: dict, **kwargs) -> str:
-        """
-        Execute tool calls with the available tools.
-
-        Args:
-            tool_name: Name of the tool to call
-            tool_args: Arguments to pass to the tool
-
-        Returns:
-            Tool execution result as string
-        """
+        """Execute tool calls with the available tools."""
         if tool_name in self.tools:
             try:
-                # Call the tool
                 if hasattr(self.tools[tool_name], "call"):
-                    # Async tool
                     if asyncio.iscoroutinefunction(self.tools[tool_name].call):
                         result = await self.tools[tool_name].call(**tool_args)
                     else:
                         result = self.tools[tool_name].call(**tool_args)
                 elif callable(self.tools[tool_name]):
-                    # Direct callable
                     result = self.tools[tool_name](**tool_args)
                 else:
                     result = f"Tool {tool_name} is not callable"
@@ -722,18 +629,9 @@ class MultiTurnReactAgent:
             return f"Tool {tool_name} not found. Available tools: {available_tools}"
 
     async def execute_python(self, code: str) -> str:
-        """
-        Execute Python code using the PythonInterpreter tool.
-
-        Args:
-            code: Python code to execute
-
-        Returns:
-            Execution result as string
-        """
+        """Execute Python code using the PythonInterpreter tool."""
         if "PythonInterpreter" in self.tools:
             try:
-                # Use the PythonInterpreter tool
                 tool = self.tools["PythonInterpreter"]
                 if hasattr(tool, "call"):
                     if asyncio.iscoroutinefunction(tool.call):
@@ -749,8 +647,7 @@ class MultiTurnReactAgent:
             return "PythonInterpreter tool not available"
 
     def reset(self):
-        """Reset the agent state (for compatibility with rLLM workflow)."""
-        # Reset token counters for each new task
+        """Reset the agent state for a new task."""
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
 
@@ -768,11 +665,12 @@ class MultiTurnReactAgent:
         Args:
             question: Research question to answer
             answer: Ground truth answer (optional, for evaluation)
+            images: List of base64 data URI strings
+            image_path: Local filesystem path to the first image (for crop_and_search)
 
         Returns:
             Result dictionary
         """
-        # Reset token counters for each new run
         self.reset()
         return await self._run(question, answer, images, image_path, **kwargs)
 
