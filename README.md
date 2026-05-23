@@ -11,19 +11,19 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 </p>
 
 <p align="center">
-       
+       🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Eval">VQA Benchmark Subset</a>
 </p>
 
 <p align="center">
-       🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini">VDR-Bench (testmini)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Eval">VQA Benchmark Subset</a>&nbsp&nbsp
+       🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-SFT-Data">Cold-start Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Toy-RL-Data">RL Dataset (demo)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench">VDR-Bench (full)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/datasets/Osilly/VDR-Bench-testmini">VDR-Bench (testmini)</a>
 </p>
 
 <p align="center">
-       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B (SFT+RL, coming soon)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>&nbsp&nbsp 
+       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B (SFT+RL, coming soon)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>
 </p>
 
 <p align="center">
-  📑<a href="https://arxiv.org/abs/2601.22060">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://arxiv.org/abs/2602.02185">VDR-Bench Paper</a>&nbsp&nbsp
+  📑<a href="https://arxiv.org/abs/2601.22060">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://arxiv.org/abs/2602.02185">VDR-Bench Paper</a>
 </p>
 The datasets, code and weights will be released, stay tuned!
 
