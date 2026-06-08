@@ -19,7 +19,7 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 </p>
 
 <p align="center">
-       🤗 <a href="https://github.com/Osilly/Vision-DeepResearch">Vision-DeepResearch-30B-A3B (SFT+RL, coming soon)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>
+       🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-30B-A3B">Vision-DeepResearch-30B-A3B (SFT+RL)</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://huggingface.co/Osilly/Vision-DeepResearch-8B">Vision-DeepResearch-8B (SFT-only)</a>
 </p>
 
 <p align="center">
@@ -28,6 +28,8 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 The datasets, code and weights will be released, stay tuned!
 
 ## Timeline
+
+- [2026/06/08] **We released [Vision-DeepResearch-30B-A3B](https://huggingface.co/Osilly/Vision-DeepResearch-30B-A3B)**.
 
 - [2026/05/24] **We have released the subset of our used benchmark subset and detailed evaluation guidance**! Please see [VQA Benchmark Subset](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Eval) and [Eval Guidance](https://github.com/Osilly/Vision-DeepResearch/blob/main/rllm/eval/README.md).
 
