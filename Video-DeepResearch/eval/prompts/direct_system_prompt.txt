@@ -1,0 +1,1 @@
+Answer the question based on the keyframes provided. Please place your answer within the `<answer></answer>` tag. Do not use any tools.

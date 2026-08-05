@@ -1,0 +1,34 @@
+# Runtime deps for eval/ (vdr_core + run_eval*.py + tools/).
+#
+# Install:  pip install -r eval/requirements.txt
+#
+# The pins below are minimum-viable; upgrade freely as long as APIs match.
+# Notes:
+#   - torch + transformers must match your CUDA / accelerator setup.
+#   - qwen_vl_utils is optional but recommended for Qwen-VL multimodal parsing;
+#     vdr_core falls back to a manual image extractor if it is missing.
+#   - openai is only needed when a run uses --backend openai/vllm/claude
+#     (run_eval.py) or run_eval_maas.py (always).
+
+# --- core inference / model I/O ---
+torch
+transformers>=4.45
+numpy
+Pillow
+
+# --- config + IO + HTTP ---
+pyyaml
+tqdm
+requests
+aiohttp
+json5              # lenient JSON parsing for <tool_call>{...} extraction (env.py)
+
+# --- OpenAI-compatible API client (used by run_eval*.py backends) ---
+openai>=1.0
+
+# --- OSS upload for crop_and_search_tool.py (required) ---
+oss2
+
+# --- optional: Qwen-VL multimodal helper (recommended) ---
+qwen-vl-utils
+

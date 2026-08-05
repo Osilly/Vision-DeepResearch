@@ -1,0 +1,64 @@
+# Vision-DeepResearch Configuration for slime GRPO Training
+# Copy this file and customize according to your setup
+
+# =============================================================================
+# Rollout Settings
+# =============================================================================
+max_turns: 20 # Maximum tool-calling turns per episode (aligned with eval)
+vlm_rollout_work_dir: ./output/tools_output  # Working directory for tool outputs
+
+# Supported tools (comma-separated). Aligned with eval/config.yaml — RL rollout
+# should expose the same tool set the model sees at evaluation time.
+supported_tools: search,visit,select_crop_search
+
+# =============================================================================
+# Tool API Keys
+# =============================================================================
+# These fields are mirrored to environment variables by examples.vision_deepresearch.env.
+zhipu_api_key: "<YOUR_ZHIPU_API_KEY>"
+# serp_api_key: your_serper_api_key
+# jina_api_key: your_jina_api_key
+
+oss_access_key_id: "<YOUR_OSS_ACCESS_KEY_ID>"
+oss_access_key_secret: "<YOUR_OSS_ACCESS_KEY_SECRET>"
+oss_endpoint: "https://oss-cn-shanghai.aliyuncs.com"
+oss_bucket_name: "vision-deepresearch"
+image_crop_cache: ./output/crops
+
+# =============================================================================
+# Optional: Extract Model for Webpage Summarization
+# =============================================================================
+# Used by visit_tool to summarize webpage contents. Supports two backends:
+#   extract_backend: sglang_generate → POST {extract_url}/generate
+#   extract_backend: vllm | openai   → POST {extract_url}/v1/chat/completions
+# May reuse the judge vLLM instance (both speak OpenAI-compatible schema).
+extract_model: Qwen3-VL-30B-A3B-Instruct
+extract_backend: vllm
+extract_url: http://<vllm-host>:<port>/v1
+extract_timeout: 600
+extract_temperature: 0
+
+# =============================================================================
+# Optional: Teacher Distillation (OPD)
+# =============================================================================
+# gold_teacher_hf_checkpoint: /path/to/teacher/model
+# teacher_model_name: vision_deepresearch_teacher
+# teacher_pool_config:
+#   base_url: http://your-teacher-model:8000
+#   model_name: teacher-model-name
+
+# =============================================================================
+# Data Settings
+# =============================================================================
+# Training data should contain:
+# - prompt: The research question
+# - multimodal_inputs: {"images": [...]} for image inputs
+# - label: Ground truth answer (optional, for reward calculation)
+
+# Example data format:
+# {
+#   "prompt": "What is shown in this image and where can I find more information about it?",
+#   "multimodal_inputs": {"images": ["path/to/image.jpg"]},
+#   "label": "The image shows..."
+# }
+

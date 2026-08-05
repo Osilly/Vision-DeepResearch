@@ -1,0 +1,50 @@
+# VideoDR Evaluation Configuration
+
+# =============================================================================
+# Rollout Settings
+# =============================================================================
+max_turns: 20
+vlm_rollout_work_dir: ./output/tools_output
+
+# Path (Python dotted) to the interaction env module used by vdr_core/rollout.py.
+# Left as vdr_core.env so the eval works out-of-the-box; RL runs may override.
+rollout_interaction_env_path: vdr_core.env
+
+supported_tools: search,visit,select_crop_search
+
+# =============================================================================
+# Tool API Keys
+# =============================================================================
+zhipu_api_key: "<YOUR_ZHIPU_API_KEY>"
+
+oss_access_key_id: "<YOUR_OSS_ACCESS_KEY_ID>"
+oss_access_key_secret: "<YOUR_OSS_ACCESS_KEY_SECRET>"
+oss_endpoint: "https://oss-cn-shanghai.aliyuncs.com"
+oss_bucket_name: "vision-deepresearch"
+image_crop_cache: ./output/crops
+
+# =============================================================================
+# Extract Model  (REQUIRED — used by visit_tool to summarize webpage contents)
+# =============================================================================
+# Supports two deployment backends:
+#   extract_backend: sglang_generate   → POST {extract_url}/generate
+#     (extract_url example: http://<sglang-host>:<port>/generate)
+#   extract_backend: vllm | openai     → POST {extract_url}/v1/chat/completions
+#     (extract_url example: http://<vllm-host>:<port>/v1)
+# The three keys below are auto-bridged to EXTRACT_MODEL / EXTRACT_BACKEND /
+# EXTRACT_URL env vars by env._sync_tool_config_to_env at runtime.
+extract_model: Qwen3-VL-30B-A3B-Instruct
+extract_backend: vllm
+extract_url: http://<vllm-host>:<port>/v1
+extract_timeout: 600
+extract_temperature: 0
+
+# =============================================================================
+# OpenAI-compatible Backend (used when --backend openai)
+# =============================================================================
+# openai_api_key: "<YOUR_OPENAI_API_KEY>"
+# openai_base_url: "https://<maas-host>/v1"
+# openai_model: "<model-name>"
+# openai_headers:
+#   x-maas-user-email: "<your-email@example.com>"
+#   x-maas-app-id: "<your-app-id>"

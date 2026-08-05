@@ -29,6 +29,8 @@ The datasets, code and weights will be released, stay tuned!
 
 ## Timeline
 
+- [2026/08/05] **We release [Video-DeepResearch paper](https://arxiv.org/abs/2608.03979)!** Video-DR extends Vision-DR to continuous video streams. Code lives under [`Video-DeepResearch/`](Video-DeepResearch).
+
 - [2026/06/08] **We released [Vision-DeepResearch-30B-A3B](https://huggingface.co/Osilly/Vision-DeepResearch-30B-A3B)**.
 
 - [2026/05/24] **We have released the subset of our used benchmark subset and detailed evaluation guidance**! Please see [VQA Benchmark Subset](https://huggingface.co/datasets/Osilly/Vision-DeepResearch-Eval) and [Eval Guidance](https://github.com/Osilly/Vision-DeepResearch/blob/main/rllm/eval/README.md).
@@ -256,5 +258,13 @@ bash rllm/eval/run_eval.sh
   journal={arXiv preprint arXiv:2602.02185},
   year={2026}
 }
-
+@misc{fang2026videodeepresearchnextgenerationmultimodaldeepresearch,
+      title={Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent}, 
+      author={Zhen Fang and Yu Zeng and Wenxuan Huang and Yiming Zhao and Shiting Huang and Tianfei Ren and Qi Lu and Qingnan Ren and Qisheng Su and Lionel Z. Wang and Qingyu Yin and Shuang Chen and Zehui Chen and Lin Chen and Zhenfei Yin and Yao Hu and Shaohui Lin and Wanli Ouyang and Shaosheng Cao and Feng Zhao},
+      year={2026},
+      eprint={2608.03979},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2608.03979}, 
+}
 ```
