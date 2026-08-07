@@ -8,13 +8,13 @@
     &nbsp;·&nbsp;
     🌐 <a href="https://osilly.github.io/Vision-DeepResearch/">Project Page</a>
     &nbsp;·&nbsp;
-    🤗 <a href="https://huggingface.co/Osilly">Models & Data</a>
+    🤗 <a href="https://modelscope.cn/collections/CostaliyA/Video-DeepResearch">Models & Data</a>
     &nbsp;·&nbsp;
     🌐 <b>English</b> | <a href="README_zh.md">中文</a>
 </p>
 
 ## 📢 News
-
+- **[2026-08-08]** 🎉 We release the **Video-DeepResearch**-30B-A3B and **Video-DeepResearch**-35B-A3B ([Checkpoints](https://modelscope.cn/collections/CostaliyA/Video-DeepResearch)).
 - **[2026-08-05]** 🎉 We release the **Video-DeepResearch** paper ([arXiv:2608.03979](https://arxiv.org/abs/2608.03979)).
 - **[Coming soon]** 🚀 **VideoDR-Bench500** — an extended benchmark with **500 instances** covering harder, longer-horizon, and more diverse multi-hop tasks. Designed to push agents further along temporal grounding, cross-frame entity tracking, and multi-source knowledge synthesis. Stay tuned!
 
