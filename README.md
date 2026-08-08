@@ -3,7 +3,7 @@
 <p>
 <h1 align="center"> Vision-DeepResearch & Vision-DeepResearch Benchmark (VDR-Bench) & Video-DeepResearch</a></h1>
 
-The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models" and "Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models".
+The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capability in Multimodal Large Language Models", "Vision-DeepResearch Benchmark: Rethinking Visual and Textual Search for Multimodal Large Language Models" and "Video-DeepResearch: Towards the Next-Generation Multimodal Deepresearch Agent".
 
 <p align="center">
 <img src="figs/icon.png" alt="logo" height="40" align="center" />
@@ -25,6 +25,16 @@ The official repo for "Vision-DeepResearch: Incentivizing DeepResearch Capabilit
 <p align="center">
   📑<a href="https://arxiv.org/abs/2601.22060">Vision-DeepResearch Paper</a>&nbsp&nbsp | &nbsp&nbsp📑 <a href="https://arxiv.org/abs/2602.02185">VDR-Bench Paper</a>
 </p>
+
+<p align="center">
+       🤗 <a href="https://modelscope.cn/models/CostaliyA/Video-DeepResearch-30B">Video-DeepResearch-30B-A3B</a>&nbsp&nbsp | &nbsp&nbsp🤗 <a href="https://modelscope.cn/models/CostaliyA/Video-DeepResearch-35B">Video-DeepResearch-35B-A3B</a>
+</p>
+
+<p align="center">
+  📑<a href="https://arxiv.org/abs/2608.03979">Video-DeepResearch Paper</a>
+</p>
+
+
 The datasets, code and weights will be released, stay tuned!
 
 ## Timeline
