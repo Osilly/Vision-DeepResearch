@@ -486,4 +486,4 @@ swift export \
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=modelscope/swift&type=Date)](https://star-history.com/#modelscope/ms-swift&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=modelscope/swift&type=Date)](https://star-history.dera.page/#modelscope/ms-swift&Date)
