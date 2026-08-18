@@ -249,7 +249,7 @@ bash rllm/eval/run_eval.sh
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Osilly/Vision-DeepResearch&type=date&legend=top-left)](https://www.star-history.com/#Osilly/Vision-DeepResearch&type=date&legend=top-left)
+[![Star History Chart](https://star-history.dera.page/svg?repos=Osilly/Vision-DeepResearch&type=date&legend=top-left)](https://star-history.dera.page/#Osilly/Vision-DeepResearch&type=date&legend=top-left)
 
 
 ## Citation
